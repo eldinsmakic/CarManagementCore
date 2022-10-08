@@ -27,14 +27,3 @@ public struct MarqueDTO: Codable, Equatable {
 extension MarqueDTO: DefaultsSerializable {
     public static let bridge = MyBridge<Self>()
 }
-
-struct VoitureDTO {
-    let marque: MarqueDTO
-    let kilometrage: Int
-    let carburant: CarburantDTO
-}
-
-enum CarburantDTO {
-    case essence
-    case gazole
-}
