@@ -46,6 +46,36 @@ public protocol RepositoryProtocolAsync2 {
     func erase()
 }
 
+extension RepositoryProtocolAsync2 {
+    public func add(_ value: Value) async throws -> Value {
+        let _ = try await remoteStorage.add(value)
+        let _ = try await localStorage.add(value)
+        return value
+    }
+    
+    public func update(_ value: Value) async throws -> Value {
+        let _ = try await remoteStorage.update(value)
+        let _ = try await localStorage.update(value)
+        return value
+    }
+
+    public func remove(_ value: Value) async throws -> Value {
+        let _ = try await remoteStorage.remove(value)
+        let _ = try await localStorage.remove(value)
+        return value
+    }
+    
+    public func fetch() async throws -> [Value] {
+        let remoteValue = try await localStorage.fetch()
+        return remoteValue
+    }
+    
+    public func erase() {
+        remoteStorage.erase()
+        localStorage.erase()
+    }
+}
+
 public class VoitureRepositoryAsync: RepositoryProtocolAsync2 {
     public typealias Value = VoitureDTO
 
@@ -57,7 +87,10 @@ public class VoitureRepositoryAsync: RepositoryProtocolAsync2 {
 
 public class VoitureRemoteStorageAsync: RemoteStorageProtocolAsync {
 
+    public static var shared = VoitureRemoteStorageAsync()
+
     var values: [VoitureDTO] = []
+
     public func add(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
         return value
     }
@@ -112,36 +145,6 @@ public class VoitureLocalStorageAsync: LocalStorageProtocolAsync {
     
     public func erase() {
         list = []
-    }
-}
-
-extension RepositoryProtocolAsync2 {
-    public func add(_ value: Value) async throws -> Value {
-        let _ = try await remoteStorage.add(value)
-        let _ = try await localStorage.add(value)
-        return value
-    }
-    
-    public func update(_ value: Value) async throws -> Value {
-        let _ = try await remoteStorage.update(value)
-        let _ = try await localStorage.update(value)
-        return value
-    }
-
-    public func remove(_ value: Value) async throws -> Value {
-        let _ = try await remoteStorage.remove(value)
-        let _ = try await localStorage.remove(value)
-        return value
-    }
-    
-    public func fetch() async throws -> [Value] {
-        let remoteValue = try await remoteStorage.fetch()
-        return remoteValue
-    }
-    
-    public func erase() {
-        remoteStorage.erase()
-        localStorage.erase()
     }
 }
 
