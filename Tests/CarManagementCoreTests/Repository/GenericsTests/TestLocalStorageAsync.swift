@@ -12,11 +12,6 @@ import Combine
 @testable import CarManagementCore
 
 public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
-    private var queue = DispatchQueue(label: "test_local_storage")
-    
-    @Published var values: [L.Value] = []
-    @Published var value: L.Value?
-
     var localStorage: L!
 
     func createLocalStorage() -> L { fatalError() }
@@ -26,12 +21,11 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
     public override func setUp() {
         super.setUp()
         localStorage = createLocalStorage()
-        self.values = []
         self.localStorage.erase()
     }
 
     func test_listPub_get_expect_zero() async throws {
-        
+
         let values = try await localStorage.fetch()
         // Asserting that our Combine pipeline yielded the
         // correct output:
@@ -117,6 +111,16 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
 
         try await localStorage.erase()
 
+        let values = try await localStorage.fetch()
+
+        XCTAssertEqual(values.count, 0)
+    }
+    
+    func test_update_expect_different_value() async throws {
+        var value = createValue()
+
+        try await localStorage.add(value)
+    
         let values = try await localStorage.fetch()
 
         XCTAssertEqual(values.count, 0)
