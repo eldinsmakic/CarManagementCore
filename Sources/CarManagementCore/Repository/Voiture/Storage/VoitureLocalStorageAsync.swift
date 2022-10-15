@@ -110,11 +110,11 @@ public struct AnyRepositoryAsync<I> {
         self.erase = repo.erase
     }
 
-    var add: (_ value: I) async throws -> Result<I,GenericErrorAsync>
-    var update: (_ value: I) async throws -> Result<I,GenericErrorAsync>
-    var remove: (_ value: I) async throws -> Result<I,GenericErrorAsync>
-    var fetch: () async throws  -> Result<[I],GenericErrorAsync>
-    var erase: () async -> Result<Void,GenericErrorAsync>
+    public var add: (_ value: I) async -> Result<I,GenericErrorAsync>
+    public var update: (_ value: I) async -> Result<I,GenericErrorAsync>
+    public var remove: (_ value: I) async -> Result<I,GenericErrorAsync>
+    public var fetch: () async  -> Result<[I],GenericErrorAsync>
+    public var erase: () async -> Result<Void,GenericErrorAsync>
 }
 
 public class RepositoryGenericAsync<L: LocalStorageProtocolAsync, R: RemoteStorageProtocolAsync, Value>: RepositoryProtocolAsync where L.Value == Value, R.Value == Value {
