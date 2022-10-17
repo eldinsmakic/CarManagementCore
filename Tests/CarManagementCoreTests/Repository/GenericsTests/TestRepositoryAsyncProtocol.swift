@@ -10,7 +10,7 @@ import XCTest
 import Combine
 @testable import CarManagementCore
 
-public class TestRepositoryAsyncProtocol<R: RepositoryProtocolAsync2>: XCTestCase {
+public class TestRepositoryAsyncProtocol<R: RepositoryProtocolAsync>: XCTestCase {
 
     var genericRepository: R { creategenericRepository() }
 
@@ -18,91 +18,98 @@ public class TestRepositoryAsyncProtocol<R: RepositoryProtocolAsync2>: XCTestCas
     func createValue() -> R.Value { fatalError() }
     func createSecondValue() -> R.Value { fatalError() }
 
-    public override func setUp() {
-        super.setUp()
+    public override func setUp() async throws {
+        try await super.setUp()
 //        genericRepository = creategenericRepository()
     
-        genericRepository.erase()
+        _ = await genericRepository.erase()
     }
 
     func test_get_expect_zero() async throws {
         
-        let values = try await genericRepository.fetch()
+        let values = await genericRepository.fetch()
+        let result = try values.get()
 
-        XCTAssertEqual(values.count, 0)
+        XCTAssertEqual(result.count, 0)
     }
 
     
     func test_add_expect_one() async throws {
-        try await genericRepository.add(createValue())
-        
-        let values = try await genericRepository.fetch()
+        _ = await genericRepository.add(createValue())
 
-        XCTAssertEqual(values.count, 1)
+        let values = await genericRepository.fetch()
+        let result = try values.get()
+
+        XCTAssertEqual(result.count, 1)
     }
 
-    
+
     func test_add_expect_two() async throws {
         let value = createValue()
         let secondValue = createSecondValue()
 
-        try await genericRepository.add(value)
-        try await genericRepository.add(secondValue)
-        
-        let values = try await genericRepository.fetch()
+        _ = await genericRepository.add(value)
+        _ = await genericRepository.add(secondValue)
 
-        XCTAssertEqual(values.count, 2)
-        XCTAssertEqual(values, [value, secondValue])
+        let values = await genericRepository.fetch()
+        let result = try values.get()
+
+        XCTAssertEqual(result.count, 2)
+        XCTAssertEqual(result, [value, secondValue])
     }
 
     func test_add_expect_three() async throws {
         let value = createValue()
         let secondValue = createSecondValue()
 
-        try await genericRepository.add(value)
-        try await genericRepository.add(secondValue)
-        try await genericRepository.add(value)
-        
-        let values = try await genericRepository.fetch()
+        _ = await genericRepository.add(value)
+        _ = await genericRepository.add(secondValue)
+        _ = await genericRepository.add(value)
 
-        XCTAssertEqual(values.count, 3)
-        XCTAssertEqual(values, [value, secondValue, value])
+        let values = await genericRepository.fetch()
+        let result = try values.get()
+
+        XCTAssertEqual(result.count, 3)
+        XCTAssertEqual(result, [value, secondValue, value])
     }
 
     func test_listPub_remove_expect_zero() async throws {
         let value = createValue()
 
-        try await genericRepository.add(value)
-        try await genericRepository.remove(value)
+        _ = await genericRepository.add(value)
+        _ = await genericRepository.remove(value)
 
-        let values = try await genericRepository.fetch()
+        let values = await genericRepository.fetch()
+        let result = try values.get()
 
-        XCTAssertEqual(values.count, 0)
+        XCTAssertEqual(result.count, 0)
     }
 
     func test_listPub_remove_when_add_two_expect_one() async throws {
         let value = createValue()
         let secondValue = createSecondValue()
 
-        try await genericRepository.add(value)
-        try await genericRepository.add(secondValue)
-        try await genericRepository.remove(value)
+        _ = await genericRepository.add(value)
+        _ = await genericRepository.add(secondValue)
+        _ = await genericRepository.remove(value)
 
-        let values = try await genericRepository.fetch()
+        let values = await genericRepository.fetch()
+        let result = try values.get()
 
-        XCTAssertEqual(values, [secondValue])
+        XCTAssertEqual(result, [secondValue])
     }
 
     func test_listPub_erase_expect_zero() async throws {
         let value = createValue()
 
-        try await genericRepository.add(value)
-        try await genericRepository.add(value)
-        try await genericRepository.erase()
-        
-        let values = try await genericRepository.fetch()
+        _ = await genericRepository.add(value)
+        _ = await genericRepository.add(value)
+        _ = await genericRepository.erase()
 
-        XCTAssertEqual(values.count, 0)
+        let values = await genericRepository.fetch()
+        let result = try values.get()
+
+        XCTAssertEqual(result.count, 0)
     }
 //
 //    func test_remove_atOffset() {

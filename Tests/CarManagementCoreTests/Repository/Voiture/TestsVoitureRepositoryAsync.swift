@@ -8,7 +8,7 @@
 import XCTest
 import CarManagementCore
 
-final class TestsVoitureRepositoryAsyncG: TestRepositoryAsyncProtocol<VoitureRepositoryAsync> {
+final class TestsVoitureRepositoryAsync: TestRepositoryAsyncProtocol<VoitureRepositoryAsync> {
     
     let injection = Injection.shared
     
@@ -16,17 +16,17 @@ final class TestsVoitureRepositoryAsyncG: TestRepositoryAsyncProtocol<VoitureRep
     override func createValue() -> VoitureDTO { FakeData.Voiture.fistValue}
     override func createSecondValue() -> VoitureDTO { FakeData.Voiture.secondValue }
     
-    override func setUp() {
+    override func setUp() async throws {
         let local = VoitureLocalStorageAsync.shared
         let remote = VoitureRemoteStorageAsync.shared
         injection.removeAll()
-        injection.register(VoitureLocalStorageAsync.self) { _ in
+        injection.register((VoitureLocalStorageAsync).self) { _ in
             local
         }
         injection.register(VoitureRemoteStorageAsync.self) { _ in
             remote
         }
-        local.erase()
-        remote.erase()
+        try await local.erase()
+        try await remote.erase()
     }
 }
