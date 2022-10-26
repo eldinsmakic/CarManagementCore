@@ -8,7 +8,8 @@
 import Foundation
 import Defaults
 
-public struct VoitureDTO {
+public struct VoitureDTO: Identifiable {
+    public var id = UUID()
     public let marque: MarqueDTO
     public var kilometrage: Int
     public let carburant: CarburantDTO
