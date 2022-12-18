@@ -23,7 +23,12 @@ public class Injection {
     }
 
     public func register<Service>(_ serviceType: Service.Type, name: String? = nil, factory: @escaping (Resolver) -> Service) {
-        container.register(serviceType, name: name, factory: factory)
+        container.register(serviceType, name: name, factory: factory).inObjectScope(.container)
+        
+    }
+    
+    public func register<Service>(_ serviceType: Service.Type, name: String? = nil, objetScope: ObjectScopeProtocol, factory: @escaping (Resolver) -> Service) {
+        container.register(serviceType, name: name, factory: factory).inObjectScope(objetScope)
     }
 
     private init() {}
