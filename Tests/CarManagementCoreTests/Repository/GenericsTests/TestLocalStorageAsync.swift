@@ -18,10 +18,10 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
     func createValue() -> L.Value { fatalError() }
     func createSecondValue() -> L.Value { fatalError() }
 
-    public override func setUp() {
-        super.setUp()
+    public override func setUp() async throws {
+        try await super.setUp()
         localStorage = createLocalStorage()
-        self.localStorage.erase()
+        try await self.localStorage.erase()
     }
 
     func test_listPub_get_expect_zero() async throws {
@@ -57,7 +57,7 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
     func test_listPub_expect_two() async throws {
         let value = createValue()
 
-        try await localStorage.add(value)
+        let _ = try await localStorage.add(value)
         try await localStorage.add(value)
         
         let values = try await localStorage.fetch()
@@ -116,15 +116,15 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
         XCTAssertEqual(values.count, 0)
     }
     
-    func test_update_expect_different_value() async throws {
-        var value = createValue()
-
-        try await localStorage.add(value)
-    
-        let values = try await localStorage.fetch()
-
-        XCTAssertEqual(values.count, 0)
-    }
+//    func test_update_expect_different_value() async throws {
+//        var value = createValue()
+//
+//        try await localStorage.add(value)
+//
+//        let values = try await localStorage.fetch()
+//
+//        XCTAssertEqual(values.count, 0)
+//    }
 
 //    func test_remove_atOffset() async throws {
 //        let value = createValue()

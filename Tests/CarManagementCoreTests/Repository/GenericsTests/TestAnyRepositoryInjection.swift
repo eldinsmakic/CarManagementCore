@@ -11,20 +11,20 @@ import XCTest
 import Combine
 
 class SpyRepositoryString: RepositoryProtocol {
-   
+
     private var values: [String] = []
 
     private var publisher = PassthroughSubject<[String], Never>()
 
     var model: AnyPublisher<[String], Never> { publisher.eraseToAnyPublisher() }
-    
+
     init() {}
-    
+
     func add(_ value: String) {
         self.values.append(value)
         self.publisher.send(values)
     }
-    
+
     func remove(_ value: String) {
         self.values.removeAll { $0 == value }
         self.publisher.send(values)
@@ -34,12 +34,11 @@ class SpyRepositoryString: RepositoryProtocol {
 //        self.values.remove(atOffsets: offsets)
         self.publisher.send(values)
     }
-    
-    
+
     func fetch() {
         publisher.send(values)
     }
-    
+
     func erase() {
         self.values = []
         publisher.send(values)

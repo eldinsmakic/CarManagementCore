@@ -15,7 +15,7 @@ enum FakeData {
         static var secondValue: VoitureDTO = .init(marque: FakeData.Marque.secondValue, kilometrage: 100_000, carburant: .gazole, annee: 2002.years.ago, dateAchat: .now)
     }
     enum Marque {
-        static var firstValue: MarqueDTO = .init(name: "bmw", model: "serie 5 e39", motorisation: "2.5 tds")
-        static var secondValue: MarqueDTO = .init(name: "audi", model: "a4", motorisation: "2.4")
+        static var firstValue: MarqueDTO = .init(id: .init(), name: "bmw", model: "serie 5 e39", motorisation: "2.5 tds")
+        static var secondValue: MarqueDTO = .init(id: .init(), name: "audi", model: "a4", motorisation: "2.4")
     }
 }
