@@ -10,17 +10,11 @@ import RealmSwift
 
 public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
     public static var shared = MarqueLocalStorageRealm()
-    
-//    private var realm: Realm
-    
-//    static let serialQueue = DispatchQueue(label: "serial-queue")
-    
-    private init() {
-//        try! self.realm = Realm(configuration: .defaultConfiguration, queue: MarqueLocalStorageRealm.serialQueue)
-    }
+
+    private init() {}
 
     public typealias Value = MarqueDTO
-    
+
     @MainActor
     public func add(_ value: MarqueDTO) async throws -> MarqueDTO {
         let realm = try! await Realm()
