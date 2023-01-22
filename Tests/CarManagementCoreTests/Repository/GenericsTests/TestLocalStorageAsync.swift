@@ -33,16 +33,16 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
     }
 
     func test_listPub_get_expect_two() async throws {
-        var input = createValue()
-        var secondInput = createSecondValue()
+        let value = createValue()
+        let secondValue = createSecondValue()
 
-        input = try await localStorage.add(input)
-        secondInput = try await localStorage.add(secondInput)
+        try await localStorage.add(value)
+        try await localStorage.add(secondValue)
 
         let values = try await localStorage.fetch()
 
         XCTAssertEqual(values.count, 2)
-        XCTAssertEqual(values, [input, secondInput])
+        XCTAssertEqual(values, [value, secondValue])
     }
 
     func test_listPub_expect_one() async throws {
@@ -79,18 +79,23 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
 
     
     func test_listPub_remove_expect_zero() async throws {
-        let value = try await localStorage.add(createValue())
+        let value = createValue()
+
+        try await localStorage.add(value)
 
         try await localStorage.remove(value)
-
+        
         let values = try await localStorage.fetch()
 
         XCTAssertEqual(values.count, 0)
     }
 
     func test_listPub_remove_when_add_two_expect_one() async throws {
-        let value = try await localStorage.add(createValue())
-        let secondValue =  try await localStorage.add(createSecondValue())
+        let value = createValue()
+        let secondValue = createSecondValue()
+
+        try await localStorage.add(value)
+        try await localStorage.add(secondValue)
         try await localStorage.remove(value)
 
         let values = try await localStorage.fetch()
