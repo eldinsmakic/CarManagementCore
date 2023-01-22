@@ -17,7 +17,7 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
 
     @MainActor
     public func add(_ value: MarqueDTO) async throws -> MarqueDTO {
-        let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
+        let realm = try! await Realm()
         let marqueEntity = MarqueEntity(
             name: value.name,
             model: value.model,
@@ -37,28 +37,23 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
 
     @MainActor
     public func remove(_ value: MarqueDTO) async throws -> MarqueDTO {
-        let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
-        
-        let all = realm.objects(MarqueEntity.self)
-
-        let result = all.where { entity in
-            entity._id == value.id
-        }
-
-        guard let element = result.first?.toDTO() else {
-            throw NSError(domain: "element not exist", code: 2)
-        }
+        let realm = try! await Realm()
+        let entity = MarqueEntity(
+            name: value.name,
+            model: value.model,
+            motorisation: value.motorisation
+        )
 
         try! realm.write {
-            realm.delete(result)
+            realm.delete(entity)
         }
 
-        return element
+        return entity.toDTO()
     }
 
     @MainActor
     public func fetch() async throws -> [MarqueDTO] {
-        let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
+        let realm = try! await Realm()
         let all = realm.objects(MarqueEntity.self)
 
         return all.map { marqueEntity in
@@ -68,7 +63,7 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
 
     @MainActor
     public func erase() async throws {
-        let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
+        let realm = try! await Realm()
         try! realm.write {
             let all = realm.objects(MarqueEntity.self)
             realm.delete(all)
@@ -77,7 +72,7 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
 }
         
 class MarqueEntity: Object {
-    @Persisted(primaryKey: true) var _id: UUID
+    @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String
     @Persisted var model: String
     @Persisted var motorisation: String
@@ -92,6 +87,6 @@ class MarqueEntity: Object {
 
 extension MarqueEntity {
     func toDTO() -> MarqueDTO {
-        .init(id: _id, name: name, model: model, motorisation: motorisation)
+        .init(id: UUID(uuidString: _id.stringValue) ?? UUID(), name: name, model: model, motorisation: motorisation)
     }
 }
