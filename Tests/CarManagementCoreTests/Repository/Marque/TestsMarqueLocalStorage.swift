@@ -8,17 +8,16 @@
 import XCTest
 import CarManagementCore
 
-final class TestsMarqueLocalStorage: TestLocalStorageAsync<MarqueLocalStorageRealm> {
-
-    override func createLocalStorage() -> MarqueLocalStorageRealm {
-        MarqueLocalStorageRealm.shared
+final class TestsMarqueLocalStorage: TestLocalStorage<MarqueLocalStorage> {
+    override func createLocalStorage() -> MarqueLocalStorage {
+        MarqueLocalStorage.shared
     }
 
     override func createValue() -> MarqueDTO {
-        FakeData.Marque.firstValue
+        MarqueDTO(name: "test", model: "hello", motorisation: "1.5l")
     }
 
     override func createSecondValue() -> MarqueDTO {
-        FakeData.Marque.secondValue
+        MarqueDTO(name: "bmw", model: "serie 5 e39", motorisation: "2.5 tds")
     }
 }

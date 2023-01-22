@@ -22,10 +22,10 @@ final class TestsMarqueRepository: TestRepositoryGeneric<MarqueLocalStorage> {
     }
     
     override func createValue() -> MarqueDTO {
-        FakeData.Marque.firstValue
+        MarqueDTO(name: "bmw", model: "serie 5", motorisation: "2.5TDS")
     }
     
     override func createSecondValue() -> MarqueDTO {
-        FakeData.Marque.secondValue
+        MarqueDTO(name: "bmw", model: "serie 5 Break", motorisation: "2.5TDS")
     }
 }
