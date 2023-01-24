@@ -110,30 +110,5 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
 
         XCTAssertEqual(values.count, 0)
     }
-    
-//    func test_update_expect_different_value() async throws {
-//        var value = createValue()
-//
-//        try await localStorage.add(value)
-//
-//        let values = try await localStorage.fetch()
-//
-//        XCTAssertEqual(values.count, 0)
-//    }
-
-//    func test_remove_atOffset() async throws {
-//        let value = createValue()
-//        let secondValue = createSecondValue()
-//
-//        try await localStorage.add(value)
-//
-//        try await localStorage.add(secondValue)
-//
-//        try await localStorage.delete(at: 0)
-//
-//        let values = try await localStorage.fetch()
-//
-//        XCTAssertEqual(values, [secondValue])
-//    }
 }
 
