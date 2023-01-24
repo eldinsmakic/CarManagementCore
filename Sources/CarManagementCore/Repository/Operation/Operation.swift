@@ -8,75 +8,37 @@
 import Foundation
 import Defaults
 
-//public struct OperationDTO: Codable {
-//    var idVoiture: UUID
-//    var nom: String
-//    var kilometrage: String
-//    var cout: String
-//    var date: Date
-//    var typeOperation: OperationType
-//}
-//
-//enum OperationType {
-//    case upgrade
-//    case repair
-//    case maintenance
-//}
-
-public protocol OperationDTO: DefaultsSerializable, Codable, Equatable {
-    var idVoiture: UUID { get }
-    var nom: String { get }
-    var kilometrage: String { get }
-    var cout: String { get }
-    var date: Date { get }
-}
-
-public struct CarburantDT: OperationDTO {
+public struct OperationDTO: Codable, Equatable {
     public var idVoiture: UUID
+    public var id: UUID
     public var nom: String
     public var kilometrage: String
     public var cout: String
     public var date: Date
-    public var quantité: Double
-    public var prixAuLitre: Double
+    public var typeOperation: OperationType
+
+    public init(
+        idVoiture: UUID,
+        id: UUID,
+        nom: String,
+        kilometrage: String,
+        cout: String,
+        date: Date,
+        typeOperation: OperationType
+    ) {
+        self.idVoiture = idVoiture
+        self.id = id
+        self.nom = nom
+        self.kilometrage = kilometrage
+        self.cout = cout
+        self.date = date
+        self.typeOperation = typeOperation
+    }
 }
 
-extension CarburantDT: DefaultsSerializable {
-    public static let bridge = MyBridge<Self>()
+public enum OperationType: Codable, Equatable {
+    case upgrade
+    case repair
+    case maintenance
 }
 
-public struct EntretienDTO: OperationDTO {
-    public var idVoiture: UUID
-    public var nom: String
-    public var kilometrage: String
-    public var cout: String
-    public var date: Date
-}
-
-extension EntretienDTO: DefaultsSerializable {
-    public static let bridge = MyBridge<Self>()
-}
-
-public struct RepartionDTO: OperationDTO {
-    public var idVoiture: UUID
-    public var nom: String
-    public var kilometrage: String
-    public var cout: String
-    public var date: Date
-}
-
-extension RepartionDTO: DefaultsSerializable {
-    public static let bridge = MyBridge<Self>()
-}
-
-public struct AmeliorationDTO: OperationDTO {
-    public var idVoiture: UUID
-    public var nom: String
-    public var kilometrage: String
-    public var cout: String
-    public var date: Date
-}
-
-extension AmeliorationDTO: DefaultsSerializable {
-    public static let bridge = MyBridge<Self>()
-}
