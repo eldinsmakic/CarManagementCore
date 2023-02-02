@@ -24,6 +24,7 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
         try await self.localStorage.erase()
     }
 
+    // MARK: - Get
     func test_get_expect_zero() async throws {
 
         let values = try await localStorage.fetch()
@@ -32,6 +33,7 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
         XCTAssertEqual(values.count, 0)
     }
 
+    // MARK: - ADD
     func test_add_two_expect_two_same_value() async throws {
         var input = createValue()
         var secondInput = createSecondValue()
@@ -68,16 +70,17 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
     func test_add_three_expect_three() async throws {
         let value = createValue()
 
-        try await localStorage.add(value)
-        try await localStorage.add(value)
-        try await localStorage.add(value)
+        _ = try await localStorage.add(value)
+        _ = try await localStorage.add(value)
+        _ = try await localStorage.add(value)
         
         let values = try await localStorage.fetch()
 
         XCTAssertEqual(values.count, 3)
     }
 
-    
+    // MARK: - Remove
+
     func test_add_one_remove_one_expect_zero() async throws {
         let value = try await localStorage.add(createValue())
 
@@ -97,6 +100,8 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
 
         XCTAssertEqual(values, [secondValue])
     }
+
+    // MARK: - Erase
 
     func test_erase_when_add_two_erase_expect_zero() async throws {
         let value = createValue()
