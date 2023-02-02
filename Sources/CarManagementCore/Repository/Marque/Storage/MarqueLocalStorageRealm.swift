@@ -31,8 +31,25 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
         return marqueEntity.toDTO()
     }
 
+    @MainActor
     public func update(_ value: MarqueDTO) async throws -> MarqueDTO {
         return try await add(value)
+    }
+
+    @MainActor
+    public func get(byId id: UUID) async throws -> MarqueDTO {
+        let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
+        let all = realm.objects(MarqueEntity.self)
+
+        let result = all.first { marqueEntity in
+            marqueEntity._id == id
+        }
+        
+        if result != nil {
+            return result!.toDTO()
+        }
+        
+        throw NSError(domain: "Erreur", code: 1)
     }
 
     @MainActor

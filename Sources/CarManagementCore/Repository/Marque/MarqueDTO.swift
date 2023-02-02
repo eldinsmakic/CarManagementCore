@@ -8,7 +8,7 @@
 import Foundation
 import Defaults
 
-public struct MarqueDTO: Codable, Equatable {
+public struct MarqueDTO: Codable, Equatable, Identifiable {
     public let id: UUID
     public let name: String
     public let model: String

@@ -8,14 +8,14 @@
 import Foundation
 import Defaults
 
-public struct OperationDTO: Codable, Equatable {
+public struct OperationDTO: Codable, Equatable, Identifiable {
     public var idVoiture: UUID
     public var id: UUID
     public var nom: String
     public var kilometrage: String
     public var cout: String
     public var date: Date
-    public var typeOperation: OperationType
+    public var type: OperationType
 
     public init(
         idVoiture: UUID,
@@ -24,7 +24,7 @@ public struct OperationDTO: Codable, Equatable {
         kilometrage: String,
         cout: String,
         date: Date,
-        typeOperation: OperationType
+        type: OperationType
     ) {
         self.idVoiture = idVoiture
         self.id = id
@@ -32,7 +32,7 @@ public struct OperationDTO: Codable, Equatable {
         self.kilometrage = kilometrage
         self.cout = cout
         self.date = date
-        self.typeOperation = typeOperation
+        self.type = type
     }
 }
 

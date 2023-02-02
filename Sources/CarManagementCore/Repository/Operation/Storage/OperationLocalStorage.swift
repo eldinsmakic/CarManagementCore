@@ -28,7 +28,19 @@ public class OperationLocalStorageAsync: LocalStorageProtocolAsync {
     public func update(_ value: CarManagementCore.OperationDTO) async throws -> CarManagementCore.OperationDTO {
         return value
     }
-    
+
+    public func get(byId id: UUID) async throws -> OperationDTO {
+        let value = list.first { operation in
+            operation.id == id
+        }
+        
+        if value != nil {
+            return value!
+        }
+        
+        throw NSError(domain: "err", code: 1)
+    }
+
     public func remove(_ value: CarManagementCore.OperationDTO) async throws -> CarManagementCore.OperationDTO {
         list.removeAll { operation in
             operation == value

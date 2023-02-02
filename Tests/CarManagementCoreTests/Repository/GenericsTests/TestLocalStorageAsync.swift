@@ -115,5 +115,30 @@ public class TestLocalStorageAsync<L: LocalStorageProtocolAsync>: XCTestCase {
 
         XCTAssertEqual(values.count, 0)
     }
+
+    // MARK: - GetById
+
+    func test_getById_when_get_correct_id_expect_value() async throws {
+        let value = try await localStorage.add(createValue())
+        let secondValue = try await localStorage.add(createSecondValue())
+        
+        XCTAssertNotEqual(value.id, secondValue.id)
+
+        let expectedValue = try await localStorage.get(byId: value.id)
+        
+        XCTAssertEqual(value, expectedValue)
+    }
+
+    func test_getById_when_get_noExistant_id_expect_throw() async throws {
+        let value = try await localStorage.add(createValue())
+        let secondValue = try await localStorage.add(createSecondValue())
+        
+        XCTAssertNotEqual(value.id, secondValue.id)
+    
+        guard let _ = try? await localStorage.get(byId: value.id) else {
+            XCTFail("No error throwns")
+            return
+        }
+    }
 }
 

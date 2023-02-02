@@ -26,7 +26,7 @@ enum FakeData {
             kilometrage: "100 000",
             cout: "100",
             date: .now,
-            typeOperation: .maintenance
+            type: .maintenance
         )
         static var secondValue: OperationDTO = .init(
             idVoiture: Marque.secondValue.id,
@@ -35,7 +35,7 @@ enum FakeData {
             kilometrage: "110 000",
             cout: "300",
             date: .now,
-            typeOperation: .repair
+            type: .repair
         )
     }
 }
