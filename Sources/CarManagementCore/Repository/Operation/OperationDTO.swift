@@ -9,28 +9,28 @@ import Foundation
 import Defaults
 
 public struct OperationDTO: Codable, Equatable, Identifiable {
-    public var idVoiture: UUID
+    public var carId: UUID
     public var id: UUID
-    public var nom: String
-    public var kilometrage: String
-    public var cout: String
+    public var title: String
+    public var mileage: Double
+    public var cost: Double
     public var date: Date
     public var type: OperationType
 
     public init(
-        idVoiture: UUID,
+        carId: UUID,
         id: UUID,
-        nom: String,
-        kilometrage: String,
-        cout: String,
+        title: String,
+        mileage: Double,
+        cost: Double,
         date: Date,
         type: OperationType
     ) {
-        self.idVoiture = idVoiture
+        self.carId = carId
         self.id = id
-        self.nom = nom
-        self.kilometrage = kilometrage
-        self.cout = cout
+        self.title = title
+        self.mileage = mileage
+        self.cost = cost
         self.date = date
         self.type = type
     }
