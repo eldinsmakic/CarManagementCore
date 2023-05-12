@@ -9,6 +9,7 @@ import Foundation
 
 
 public class VoitureRemoteStorageAsync: RemoteStorageProtocolAsync {
+    
     public static var shared = VoitureRemoteStorageAsync()
 
     var values: [VoitureDTO] = []

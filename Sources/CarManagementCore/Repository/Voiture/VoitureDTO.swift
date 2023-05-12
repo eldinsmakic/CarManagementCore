@@ -9,7 +9,7 @@ import Foundation
 import Defaults
 
 public struct VoitureDTO: Identifiable {
-    public var id = UUID()
+    public var id: UUID
     public let marque: MarqueDTO
     public var kilometrage: Int
     public let carburant: CarburantDTO
@@ -17,12 +17,14 @@ public struct VoitureDTO: Identifiable {
     public let dateAchat: Date
     
     public init(
+        id: UUID,
         marque: MarqueDTO,
         kilometrage: Int,
         carburant: CarburantDTO,
         annee: Date,
         dateAchat: Date
     ) {
+        self.id = id
         self.marque = marque
         self.kilometrage = kilometrage
         self.carburant = carburant

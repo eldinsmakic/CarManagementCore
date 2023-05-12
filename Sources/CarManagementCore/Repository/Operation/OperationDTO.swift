@@ -12,19 +12,19 @@ public struct OperationDTO: Codable, Equatable, Identifiable {
     public var carId: UUID
     public var id: UUID
     public var title: String
-    public var mileage: Double
+    public var mileage: Int
     public var cost: Double
     public var date: Date
-    public var type: OperationType
+    public var type: OperationTypeDTO
 
     public init(
         carId: UUID,
         id: UUID,
         title: String,
-        mileage: Double,
+        mileage: Int,
         cost: Double,
         date: Date,
-        type: OperationType
+        type: OperationTypeDTO
     ) {
         self.carId = carId
         self.id = id
@@ -36,7 +36,7 @@ public struct OperationDTO: Codable, Equatable, Identifiable {
     }
 }
 
-public enum OperationType: Codable, Equatable {
+public enum OperationTypeDTO: Codable, Equatable {
     case upgrade
     case repair
     case maintenance
