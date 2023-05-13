@@ -56,7 +56,7 @@ final class TestsOperationsLocalStorageRealm: XCTestCase {
     func test_add_one_expect_one() async throws {
         let value = createValue()
 
-        await localStorage.add(value)
+        _ = await localStorage.add(value)
         let values = await localStorage.fetchAllMixed()
 
         XCTAssertEqual(values.count, 1)
@@ -177,6 +177,76 @@ final class TestsOperationsLocalStorageRealm: XCTestCase {
         XCTAssertEqual(result.count, 1)
     }
 
+
+    // MARK: - fetchLastOperations
+
+    func test_fetchLastOperations_When_no_data_expect_empty() async throws {
+        let fetch = try await localStorage.fetchLastOperations()
+
+        XCTAssertEqual(fetch.isEmpty, true)
+    }
+
+    func test_fetchLastOperations_When_add_value_expect_last_five() async throws {
+
+        for value in (1...10) {
+             _ = await localStorage.add(FakeData.Operation.create(carId: firstCarId, title: "\(value)"))
+        }
+
+        let fetch = try await localStorage.fetchLastOperations()
+
+        XCTAssertEqual(fetch.count, 1)
+        XCTAssertEqual(fetch[firstCarId]?.count, 5)
+
+        var index = 6
+        for value in fetch[firstCarId] ?? [] {
+            XCTAssertEqual(value.title, "\(index)")
+            index += 1
+        }
+    }
+
+    func test_fetchLastOperations_When_add_2_type_of_car_value_expect_last_five() async throws {
+
+        for value in (1...15) {
+            _ = await localStorage.add(FakeData.Operation.create(carId: firstCarId, title: "\(firstCarId)|\(value)"))
+            _ = await localStorage.add(FakeData.Operation.create(carId: secondCarId, title: "\(secondCarId)|\(value)"))
+        }
+
+        let fetch = try await localStorage.fetchLastOperations()
+
+        XCTAssertEqual(fetch.count, 2)
+        XCTAssertEqual(fetch[firstCarId]?.count, 5)
+        XCTAssertEqual(fetch[secondCarId]?.count, 5)
+
+        var index = 11
+        for (key, operations) in fetch {
+            for operation in operations {
+                XCTAssertEqual(operation.title, "\(key)|\(index)")
+                index += 1
+            }
+            index = 11
+        }
+    }
+
+    // MARK: - Fetch(ByCarId)
+    
+    func test_fetchByCarId_When_No_value_Expect_empty() async throws {
+        let result = try await localStorage.fetch(byCarId: firstCarId)
+        
+        XCTAssertEqual(result.count, 0)
+    }
+
+    func test_fetchByCarId_When_two_value_Expect_two() async throws {
+        _ = await localStorage.add(FakeData.Operation.create(carId: firstCarId))
+        _ = await localStorage.add(FakeData.Operation.create(carId: firstCarId))
+
+        _ = await localStorage.add(FakeData.Operation.create(carId: secondCarId))
+        _ = await localStorage.add(FakeData.Operation.create(carId: secondCarId))
+        _ = await localStorage.add(FakeData.Operation.create(carId: secondCarId))
+        let result = try await localStorage.fetch(byCarId: firstCarId)
+        
+        XCTAssertEqual(result.count, 2)
+    }
+    
 //    func test_getById_when_get_correct_id_expect_value() async throws {
 //        let value = try await localStorage.add(createValue())
 //        let secondValue = try await localStorage.add(createSecondValue())

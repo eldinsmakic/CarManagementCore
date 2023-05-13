@@ -13,7 +13,7 @@ public protocol OperationStorageProtocol {
     func add(_ value: OperationDTO) async -> Result<OperationDTO,GenericErrorAsync>
     func update(_ value: OperationDTO) async -> Result<OperationDTO,GenericErrorAsync>
     func remove(_ value: OperationDTO) async -> Result<OperationDTO,GenericErrorAsync>
-    func remove(byOperationID id: UUID, andCarId: UUID) async throws -> OperationDTO
+    func remove(byCarID carId: UUID, andId id: UUID) async throws -> OperationDTO
     func get(fromCarId carId: UUID, andId id: UUID) async -> Result<OperationDTO,GenericErrorAsync>
     func fetchAllMixed() async -> [OperationDTO]
     func fetch() async throws -> [UUID:[OperationDTO]]
@@ -81,7 +81,7 @@ public final class OperationLocaleStorageRealm: OperationStorageProtocol {
         }
     }
     
-    public func remove(byOperationID id: UUID, andCarId: UUID) async throws -> OperationDTO {
+    public func remove(byCarID carId: UUID, andId id: UUID) async throws -> OperationDTO {
         .init(carId: .init(), id: .init(), title: "", mileage: 0, cost: 0, date: .now, type: .maintenance)
     }
     
@@ -107,11 +107,20 @@ public final class OperationLocaleStorageRealm: OperationStorageProtocol {
     }
     
     public func fetchLastOperations() async throws -> [UUID : [OperationDTO]] {
-        [:]
+        var result: [UUID: [OperationDTO]] = [:]
+        let all = realm.objects(OperationLocaleEntity.self).sorted(by: \.date)
+    
+        let carIds = Set(all.map { $0.carId })
+        for carId in carIds {
+            let operations = all.where { $0.carId == carId }.suffix(5).map { $0.toDTO() }
+            result[carId] = Array(operations)
+        }
+        return result
     }
     
     public func fetch(byCarId carID: UUID) async throws -> [OperationDTO] {
-        [ ]
+        let all = realm.objects(OperationLocaleEntity.self).sorted(by: \.date)
+        return all.where { $0.carId == carID }.map { $0.toDTO() }
     }
 
     @BackgroundActor

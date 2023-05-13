@@ -49,5 +49,17 @@ enum FakeData {
                 type: .repair
             )
         }
+
+        static func create(carId: UUID, title: String) -> OperationDTO {
+            .init(
+                carId: carId,
+                id: .init(),
+                title: title,
+                mileage: 110000,
+                cost: 300,
+                date: .now,
+                type: .repair
+            )
+        }
     }
 }
