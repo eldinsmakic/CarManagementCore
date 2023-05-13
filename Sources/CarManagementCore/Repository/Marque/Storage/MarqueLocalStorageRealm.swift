@@ -44,18 +44,18 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
         let result = all.first { marqueEntity in
             marqueEntity._id == id
         }
-        
+
         if result != nil {
             return result!.toDTO()
         }
-        
+
         throw NSError(domain: "Erreur", code: 1)
     }
 
     @MainActor
     public func remove(_ value: MarqueDTO) async throws -> MarqueDTO {
         let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
-        
+
         let all = realm.objects(MarqueEntity.self)
 
         let result = all.where { entity in
@@ -98,7 +98,7 @@ class MarqueEntity: Object {
     @Persisted var name: String
     @Persisted var model: String
     @Persisted var motorisation: String
- 
+
     convenience init(name: String, model: String, motorisation: String) {
         self.init()
         self.name = name
