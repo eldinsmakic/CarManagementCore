@@ -16,7 +16,7 @@ let package = Package(
         .package(url: "https://github.com/sindresorhus/Defaults.git", exact: "6.3.0"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0"),
         .package(url: "https://github.com/malcommac/SwiftDate.git", from: "5.0.0"),
-        .package(name: "RealmSwift", url: "https://github.com/realm/realm-swift.git", from: "10.33.0"),
+        .package(name: "RealmSwift", url: "https://github.com/realm/realm-swift.git", from: "10.39.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

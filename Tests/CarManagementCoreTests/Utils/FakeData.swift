@@ -11,8 +11,8 @@ import CarManagementCore
 
 enum FakeData {
     enum Voiture {
-        static var fistValue: VoitureDTO = .init(marque: FakeData.Marque.firstValue, kilometrage: 100_000, carburant: .essence, annee: 1999.years.ago, dateAchat: .now)
-        static var secondValue: VoitureDTO = .init(marque: FakeData.Marque.secondValue, kilometrage: 100_000, carburant: .gazole, annee: 2002.years.ago, dateAchat: .now)
+        static var fistValue: VoitureDTO = .init(id: .init(), marque: FakeData.Marque.firstValue, kilometrage: 100_000, carburant: .essence, annee: 1999.years.ago, dateAchat: .now)
+        static var secondValue: VoitureDTO = .init(id: .init(), marque: FakeData.Marque.secondValue, kilometrage: 100_000, carburant: .gazole, annee: 2002.years.ago, dateAchat: .now)
     }
     enum Marque {
         static var firstValue: MarqueDTO = .init(id: .init(), name: "bmw", model: "serie 5 e39", motorisation: "2.5 tds")
@@ -20,22 +20,34 @@ enum FakeData {
     }
     enum Operation {
         static var fistValue: OperationDTO = .init(
-            idVoiture: Marque.firstValue.id,
+            carId: Marque.firstValue.id,
             id: .init(),
-            nom: "Vidange",
-            kilometrage: "100 000",
-            cout: "100",
+            title: "Vidange",
+            mileage: 100000,
+            cost: 100,
             date: .now,
             type: .maintenance
         )
         static var secondValue: OperationDTO = .init(
-            idVoiture: Marque.secondValue.id,
+            carId: Marque.secondValue.id,
             id: .init(),
-            nom: "Courroie accesoire",
-            kilometrage: "110 000",
-            cout: "300",
+            title: "Courroie accesoire",
+            mileage: 110000,
+            cost: 300,
             date: .now,
             type: .repair
         )
+
+        static func create(carId: UUID) -> OperationDTO {
+            .init(
+                carId: carId,
+                id: .init(),
+                title: "Courroie accesoire",
+                mileage: 110000,
+                cost: 300,
+                date: .now,
+                type: .repair
+            )
+        }
     }
 }

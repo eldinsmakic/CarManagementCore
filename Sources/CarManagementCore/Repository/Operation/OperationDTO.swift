@@ -36,8 +36,8 @@ public struct OperationDTO: Codable, Equatable, Identifiable {
     }
 }
 
-public enum OperationTypeDTO: Codable, Equatable {
-    case upgrade
+public enum OperationTypeDTO: String, Codable, Equatable {
+    case upgrade 
     case repair
     case maintenance
 }

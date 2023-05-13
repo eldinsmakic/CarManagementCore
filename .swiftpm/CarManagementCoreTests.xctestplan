@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "42A3DF97-B1A3-48DA-A88C-5A4218F3D4B1",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "commandLineArgumentEntries" : [
+      {
+        "argument" : "SWIFT_STRICT_CONCURRENCY=complete"
+      },
+      {
+        "argument" : "OTHER_SWIFT_FLAGS=-Xfrontend-enable-actor-data-race-checks"
+      }
+    ]
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "CarManagementCoreTests",
+        "name" : "CarManagementCoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}
