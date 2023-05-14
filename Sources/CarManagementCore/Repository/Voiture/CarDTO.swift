@@ -8,19 +8,19 @@
 import Foundation
 import Defaults
 
-public struct VoitureDTO: Identifiable {
+public struct CarDTO: Identifiable {
     public var id: UUID
-    public let marque: MarqueDTO
+    public let marque: BrandDTO
     public var kilometrage: Int
-    public let carburant: CarburantDTO
+    public let carburant: FuelTypeDTO
     public let annee: Date
     public let dateAchat: Date
     
     public init(
         id: UUID,
-        marque: MarqueDTO,
+        marque: BrandDTO,
         kilometrage: Int,
-        carburant: CarburantDTO,
+        carburant: FuelTypeDTO,
         annee: Date,
         dateAchat: Date
     ) {
@@ -33,13 +33,13 @@ public struct VoitureDTO: Identifiable {
     }
 }
 
-extension VoitureDTO: Codable, Equatable {}
+extension CarDTO: Codable, Equatable {}
 
-extension VoitureDTO: DefaultsSerializable {
+extension CarDTO: DefaultsSerializable {
     public static let bridge = MyBridge<Self>()
 }
 
-public enum CarburantDTO: Codable {
+public enum FuelTypeDTO: Codable {
     case essence
     case gazole
 }

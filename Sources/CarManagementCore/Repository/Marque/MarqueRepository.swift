@@ -7,4 +7,4 @@
 
 import Foundation
 
-public class MarqueRepository: RepositoryGeneric<MarqueLocalStorage,MarqueDTO> {}
+public class MarqueRepository: RepositoryGeneric<MarqueLocalStorage,BrandDTO> {}

@@ -12,21 +12,21 @@ public class VoitureRemoteStorageAsync: RemoteStorageProtocolAsync {
     
     public static var shared = VoitureRemoteStorageAsync()
 
-    var values: [VoitureDTO] = []
+    var values: [CarDTO] = []
 
-    public func add(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
+    public func add(_ value: CarManagementCore.CarDTO) async throws -> CarManagementCore.CarDTO {
         return value
     }
 
-    public func update(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
+    public func update(_ value: CarManagementCore.CarDTO) async throws -> CarManagementCore.CarDTO {
         return value
     }
     
-    public func remove(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
+    public func remove(_ value: CarManagementCore.CarDTO) async throws -> CarManagementCore.CarDTO {
         return value
     }
     
-    public func fetch() async throws -> [CarManagementCore.VoitureDTO] {
+    public func fetch() async throws -> [CarManagementCore.CarDTO] {
         return values
     }
     

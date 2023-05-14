@@ -13,8 +13,8 @@ final class TestsVoitureRepositoryAsync: TestRepositoryAsyncProtocol<VoitureRepo
     let injection = Injection.shared
     
     override func creategenericRepository() -> VoitureRepositoryAsync { VoitureRepositoryAsync() }
-    override func createValue() -> VoitureDTO { FakeData.Voiture.fistValue}
-    override func createSecondValue() -> VoitureDTO { FakeData.Voiture.secondValue }
+    override func createValue() -> CarDTO { FakeData.Voiture.fistValue}
+    override func createSecondValue() -> CarDTO { FakeData.Voiture.secondValue }
     
     override func setUp() async throws {
         let local = VoitureLocalStorageAsync.shared

@@ -13,9 +13,9 @@ public class MarqueLocalStorage: LocalStorageProtocol {
     
     public static var shared = MarqueLocalStorage()
 
-    public let model: AnyPublisher<[MarqueDTO], Never>
+    public let model: AnyPublisher<[BrandDTO], Never>
 
-    private var publisher = PassthroughSubject<[MarqueDTO], Never>()
+    private var publisher = PassthroughSubject<[BrandDTO], Never>()
     
     private init() {
         self.model = publisher.eraseToAnyPublisher()
@@ -29,7 +29,7 @@ public class MarqueLocalStorage: LocalStorageProtocol {
         updateDate()
     }
 
-    public func add(_ value: MarqueDTO) {
+    public func add(_ value: BrandDTO) {
         var localList = list
         localList.append(value)
         list = localList
@@ -37,7 +37,7 @@ public class MarqueLocalStorage: LocalStorageProtocol {
         updateDate()
     }
 
-    public func remove(_ value: MarqueDTO) {
+    public func remove(_ value: BrandDTO) {
         var localList = list
         localList.removeAll { transaction in
             value == transaction
@@ -62,12 +62,12 @@ public class MarqueLocalStorage: LocalStorageProtocol {
         updateDate()
     }
 
-    private var list: [MarqueDTO] {
+    private var list: [BrandDTO] {
         get { Defaults[.marques] }
         set { Defaults[.marques] = newValue }
     }
 }
 
 extension Defaults.Keys {
-    static let marques = Key<[MarqueDTO]>("marques", default: [])
+    static let marques = Key<[BrandDTO]>("marques", default: [])
 }

@@ -11,6 +11,6 @@ import CarManagementCore
 final class TestVoitureLocalStorageAsync: TestLocalStorageAsync<VoitureLocalStorageAsync> {
 
     override func createLocalStorage() -> VoitureLocalStorageAsync { VoitureLocalStorageAsync.shared }
-    override func createValue() -> VoitureDTO { FakeData.Voiture.fistValue }
-    override func createSecondValue() -> VoitureDTO { FakeData.Voiture.secondValue }
+    override func createValue() -> CarDTO { FakeData.Voiture.fistValue }
+    override func createSecondValue() -> CarDTO { FakeData.Voiture.secondValue }
 }

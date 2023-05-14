@@ -8,7 +8,7 @@
 import Foundation
 import Defaults
 
-public struct MarqueDTO: Codable, Equatable, Identifiable {
+public struct BrandDTO: Codable, Equatable, Identifiable {
     public let id: UUID
     public let name: String
     public let model: String
@@ -27,6 +27,6 @@ public struct MarqueDTO: Codable, Equatable, Identifiable {
     }
 }
 
-extension MarqueDTO: DefaultsSerializable {
+extension BrandDTO: DefaultsSerializable {
     public static let bridge = MyBridge<Self>()
 }

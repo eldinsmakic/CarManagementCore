@@ -21,11 +21,11 @@ final class TestsMarqueRepository: TestRepositoryGeneric<MarqueLocalStorage> {
         MarqueRepository()
     }
     
-    override func createValue() -> MarqueDTO {
+    override func createValue() -> BrandDTO {
         FakeData.Marque.firstValue
     }
     
-    override func createSecondValue() -> MarqueDTO {
+    override func createSecondValue() -> BrandDTO {
         FakeData.Marque.secondValue
     }
 }

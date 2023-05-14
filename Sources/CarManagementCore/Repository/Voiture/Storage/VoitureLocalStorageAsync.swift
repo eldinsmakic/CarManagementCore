@@ -8,27 +8,28 @@
 import Foundation
 import Defaults
 
+@available(*, deprecated, message: "Upgrade version but need real storage")
 public class VoitureLocalStorageAsync: LocalStorageProtocolAsync {
    
     public static var shared = VoitureLocalStorageAsync()
 
-    private var list: [VoitureDTO] {
+    private var list: [CarDTO] {
         get { Defaults[.voitures] }
         set { Defaults[.voitures] = newValue }
     }
     
     private init() {}
 
-    public func add(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
+    public func add(_ value: CarManagementCore.CarDTO) async throws -> CarManagementCore.CarDTO {
         list.append(value)
         return value
     }
     
-    public func update(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
+    public func update(_ value: CarManagementCore.CarDTO) async throws -> CarManagementCore.CarDTO {
         return value
     }
 
-    public func get(byId id: UUID) async throws -> VoitureDTO {
+    public func get(byId id: UUID) async throws -> CarDTO {
         guard let value = list.first(where: { $0.id == id }) else {
             throw NSError(domain: "2", code: 2)
         }
@@ -37,14 +38,14 @@ public class VoitureLocalStorageAsync: LocalStorageProtocolAsync {
     }
     
     
-    public func remove(_ value: CarManagementCore.VoitureDTO) async throws -> CarManagementCore.VoitureDTO {
+    public func remove(_ value: CarManagementCore.CarDTO) async throws -> CarManagementCore.CarDTO {
         list.removeAll { voiture in
             voiture == value
         }
         return value
     }
     
-    public func fetch() async throws -> [CarManagementCore.VoitureDTO] {
+    public func fetch() async throws -> [CarManagementCore.CarDTO] {
         return list
     }
     
@@ -53,4 +54,4 @@ public class VoitureLocalStorageAsync: LocalStorageProtocolAsync {
     }
 }
 
-public class VoitureRepositoryAsync: RepositoryGenericAsync<VoitureLocalStorageAsync,VoitureRemoteStorageAsync, VoitureDTO> {}
+public class VoitureRepositoryAsync: RepositoryGenericAsync<VoitureLocalStorageAsync,VoitureRemoteStorageAsync, CarDTO> {}

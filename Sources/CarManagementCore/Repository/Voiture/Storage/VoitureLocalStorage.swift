@@ -9,13 +9,14 @@ import Foundation
 import Defaults
 import Combine
 
+@available(*, deprecated, message: "First version used")
 public class VoitureLocalStorage: LocalStorageProtocol {
     
     public static var shared = VoitureLocalStorage()
 
-    public let model: AnyPublisher<[VoitureDTO], Never>
+    public let model: AnyPublisher<[CarDTO], Never>
 
-    private var publisher = PassthroughSubject<[VoitureDTO], Never>()
+    private var publisher = PassthroughSubject<[CarDTO], Never>()
     
     private init() {
         self.model = publisher.eraseToAnyPublisher()
@@ -29,15 +30,15 @@ public class VoitureLocalStorage: LocalStorageProtocol {
         updateDate()
     }
 
-    public func add(_ value: VoitureDTO) {
+    public func add(_ value: CarDTO) {
         var localList = list
         localList.append(value)
         list = localList
-    
+
         updateDate()
     }
 
-    public func remove(_ value: VoitureDTO) {
+    public func remove(_ value: CarDTO) {
         var localList = list
         localList.removeAll { voiture in
             value == voiture
@@ -62,13 +63,13 @@ public class VoitureLocalStorage: LocalStorageProtocol {
         updateDate()
     }
 
-    private var list: [VoitureDTO] {
+    private var list: [CarDTO] {
         get { Defaults[.voitures] }
         set { Defaults[.voitures] = newValue }
     }
 }
 
 extension Defaults.Keys {
-    static let voitures = Key<[VoitureDTO]>("voitures", default: [])
+    static let voitures = Key<[CarDTO]>("voitures", default: [])
 }
 

@@ -11,6 +11,6 @@ import CarManagementCore
 final class TestsMarqueLocalStorageRealm: TestLocalStorageAsync<MarqueLocalStorageRealm> {
     
     override func createLocalStorage() -> MarqueLocalStorageRealm { MarqueLocalStorageRealm.shared }
-    override func createValue() -> MarqueDTO { FakeData.Marque.firstValue }
-    override func createSecondValue() -> MarqueDTO { FakeData.Marque.secondValue }
+    override func createValue() -> BrandDTO { FakeData.Marque.firstValue }
+    override func createSecondValue() -> BrandDTO { FakeData.Marque.secondValue }
 }

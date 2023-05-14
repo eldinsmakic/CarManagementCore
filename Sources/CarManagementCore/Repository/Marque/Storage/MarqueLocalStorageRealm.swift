@@ -13,10 +13,10 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
 
     private init() {}
 
-    public typealias Value = MarqueDTO
+    public typealias Value = BrandDTO
 
     @MainActor
-    public func add(_ value: MarqueDTO) async throws -> MarqueDTO {
+    public func add(_ value: BrandDTO) async throws -> BrandDTO {
         let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
         let marqueEntity = MarqueEntity(
             name: value.name,
@@ -32,12 +32,12 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
     }
 
     @MainActor
-    public func update(_ value: MarqueDTO) async throws -> MarqueDTO {
+    public func update(_ value: BrandDTO) async throws -> BrandDTO {
         return try await add(value)
     }
 
     @MainActor
-    public func get(byId id: UUID) async throws -> MarqueDTO {
+    public func get(byId id: UUID) async throws -> BrandDTO {
         let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
         let all = realm.objects(MarqueEntity.self)
 
@@ -53,7 +53,7 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
     }
 
     @MainActor
-    public func remove(_ value: MarqueDTO) async throws -> MarqueDTO {
+    public func remove(_ value: BrandDTO) async throws -> BrandDTO {
         let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
 
         let all = realm.objects(MarqueEntity.self)
@@ -74,7 +74,7 @@ public final class MarqueLocalStorageRealm: LocalStorageProtocolAsync {
     }
 
     @MainActor
-    public func fetch() async throws -> [MarqueDTO] {
+    public func fetch() async throws -> [BrandDTO] {
         let realm = try! await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true))
         let all = realm.objects(MarqueEntity.self)
 
@@ -108,7 +108,7 @@ class MarqueEntity: Object {
 }
 
 extension MarqueEntity {
-    func toDTO() -> MarqueDTO {
+    func toDTO() -> BrandDTO {
         .init(id: _id, name: name, model: model, motorisation: motorisation)
     }
 }
