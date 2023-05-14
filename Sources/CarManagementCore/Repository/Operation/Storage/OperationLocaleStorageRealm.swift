@@ -27,7 +27,10 @@ public final class OperationLocaleStorageRealm: OperationStorageProtocol {
 
 
     public init() async throws {
-        realm = try await Realm(configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true),actor: BackgroundActor.shared)
+        realm = try await Realm(
+            configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true),
+            actor: BackgroundActor.shared
+        )
     }
 
     @BackgroundActor
