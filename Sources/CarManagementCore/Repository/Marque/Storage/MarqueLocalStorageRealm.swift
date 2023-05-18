@@ -21,6 +21,42 @@ public protocol BrandStorageProtocol {
 
 public protocol BrandRepositoryProtocol: BrandStorageProtocol {}
 
+public final class BrandRepository: BrandRepositoryProtocol {
+    @Injected private var localStorage: BrandStorageProtocol
+
+    public func create() async throws -> BrandDTO {
+        try await localStorage.create()
+    }
+    
+    public func add(_ value: BrandDTO) async throws -> BrandDTO {
+        try await localStorage.add(value)
+    }
+    
+    public func update(_ value: BrandDTO) async throws -> BrandDTO {
+        try await localStorage.update(value)
+    }
+    
+    public func remove(_ value: BrandDTO) async throws -> BrandDTO {
+        try await localStorage.remove(value)
+    }
+    
+    public func remove(byID id: UUID) async throws -> BrandDTO? {
+        try await localStorage.remove(byID: id)
+    }
+    
+    public func get(byId id: UUID) async throws -> BrandDTO {
+        try await localStorage.get(byId: id)
+    }
+    
+    public func fetch() async throws -> [BrandDTO] {
+        try await localStorage.fetch()
+    }
+    
+    public func erase() async throws {
+        try await localStorage.erase()
+    }
+}
+
 public final class MarqueLocalStorageRealm: BrandStorageProtocol {
     private let realm: Realm
 
