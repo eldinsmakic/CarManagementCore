@@ -9,10 +9,10 @@ import Foundation
 import Defaults
 
 public struct BrandDTO: Codable, Equatable, Identifiable {
-    public let id: UUID
-    public let name: String
-    public let model: String
-    public let motorisation: String
+    public var id: UUID
+    public var name: String
+    public var model: String
+    public var motorisation: String
     
     public init(
         id: UUID,
