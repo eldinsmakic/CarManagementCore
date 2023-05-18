@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol StorageProtocolAsync {
-    associatedtype Value: Equatable & Identifiable
+    associatedtype Value: Equatable
 
     func add(_ value: Value) async throws -> Value
     func update(_ value: Value) async throws -> Value
