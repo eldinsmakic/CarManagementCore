@@ -25,7 +25,6 @@ public protocol OperationStorageProtocol {
 public final class OperationLocaleStorageRealm: OperationStorageProtocol {
     private let realm: Realm
 
-
     public init() async throws {
         realm = try await Realm(
             configuration: Realm.Configuration(deleteRealmIfMigrationNeeded: true),

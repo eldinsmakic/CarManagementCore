@@ -69,7 +69,7 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
 
     @BackgroundActor
     public func create() async throws -> BrandDTO {
-        let marqueEntity = BrandEntity(
+        let marqueEntity = BrandEntityOld(
             name: "",
             model: "",
             motorisation: ""
@@ -84,7 +84,7 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
 
     @BackgroundActor
     public func add(_ value: BrandDTO) async throws -> BrandDTO {
-        let marqueEntity = BrandEntity(dto: value)
+        let marqueEntity = BrandEntityOld(dto: value)
 
         try realm.write {
             realm.add(marqueEntity, update: .modified)
@@ -100,7 +100,7 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
 
     @BackgroundActor
     public func get(byId id: UUID) async throws -> BrandDTO {
-        let all = realm.objects(BrandEntity.self)
+        let all = realm.objects(BrandEntityOld.self)
 
         let result = all.first { marqueEntity in
             marqueEntity.id == id
@@ -115,7 +115,7 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
 
     @BackgroundActor
     public func remove(_ value: BrandDTO) async throws -> BrandDTO {
-        let all = realm.objects(BrandEntity.self)
+        let all = realm.objects(BrandEntityOld.self)
 
         let result = all.where { entity in
             entity.id == value.id
@@ -134,7 +134,7 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
 
     @BackgroundActor
     public func fetch() async throws -> [BrandDTO] {
-        let all = realm.objects(BrandEntity.self)
+        let all = realm.objects(BrandEntityOld.self)
 
         return all.map { marqueEntity in
             marqueEntity.toDTO()
@@ -142,7 +142,7 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
     }
 
     public func remove(byID id: UUID) async throws -> BrandDTO? {
-        let all = realm.objects(BrandEntity.self)
+        let all = realm.objects(BrandEntityOld.self)
 
         let result = all.where { entity in
             entity.id == id
@@ -162,13 +162,13 @@ public final class MarqueLocalStorageRealm: BrandStorageProtocol {
     @BackgroundActor
     public func erase() async throws {
         try realm.write {
-            let all = realm.objects(BrandEntity.self)
+            let all = realm.objects(BrandEntityOld.self)
             realm.delete(all)
         }
     }
 }
         
-class BrandEntity: Object {
+class BrandEntityOld: Object {
     @Persisted(primaryKey: true) var id: UUID
     @Persisted var name: String
     @Persisted var model: String
@@ -190,7 +190,7 @@ class BrandEntity: Object {
     }
 }
 
-extension BrandEntity {
+extension BrandEntityOld {
     func toDTO() -> BrandDTO {
         .init(id: id, name: name, model: model, motorisation: motorisation)
     }
