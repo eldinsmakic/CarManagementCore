@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:../ScreenCar/CarManagementCore.xctestplan"
+            reference = "container:../CarManagementCore.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

@@ -21,6 +21,7 @@ public protocol StorageProtocolAsync {
 
 public enum GenericErrorAsync: Error {
     case unknowError
+    case notFound
 }
 
 public protocol LocalStorageProtocolAsync: StorageProtocolAsync {}

@@ -11,8 +11,25 @@ import CarManagementCore
 
 enum FakeData {
     enum Voiture {
-        static var fistValue: CarDTO = .init(id: .init(), marque: FakeData.Marque.firstValue, kilometrage: 100_000, carburant: .gazoline, annee: 1999.years.ago, dateAchat: .now)
-        static var secondValue: CarDTO = .init(id: .init(), marque: FakeData.Marque.secondValue, kilometrage: 100_000, carburant: .diesel, annee: 2002.years.ago, dateAchat: .now)
+        static var fistValue: CarDTO = .init(
+            id: .init(),
+            brandName: FakeData.Marque.firstValue.name,
+            brandModel: FakeData.Marque.firstValue.model, motor: FakeData.Marque.firstValue.motorisation,
+            mileage: 100_000,
+            fuelType: .diesel,
+            year: .now,
+            purchaseDate: .now
+        )
+
+        static var secondValue: CarDTO =  .init(
+            id: .init(),
+            brandName: FakeData.Marque.secondValue.name,
+            brandModel: FakeData.Marque.secondValue.model, motor: FakeData.Marque.secondValue.motorisation,
+            mileage: 299_000,
+            fuelType: .gazoline,
+            year: .now,
+            purchaseDate: .now
+        )
     }
     enum Marque {
         static var firstValue: BrandDTO = .init(id: .init(), name: "bmw", model: "serie 5 e39", motorisation: "2.5 tds")

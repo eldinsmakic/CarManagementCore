@@ -19,7 +19,7 @@ final class TestsCarLocalStorageRealm: XCTestCase {
     public override func setUp() async throws {
         try await super.setUp()
         localStorage = await createLocalStorage()
-        _ = try await self.localStorage.erase()
+        _ = await self.localStorage.erase()
     }
     
     // MARK: - Get
@@ -35,8 +35,25 @@ final class TestsCarLocalStorageRealm: XCTestCase {
         var input = createValue()
         var secondInput = createSecondValue()
         
-        input = try await localStorage.add(input).get()
-        secondInput = try await localStorage.add(secondInput).get()
+        input = try await localStorage.create(
+            brandName: input.brandName,
+            brandModel: input.brandModel,
+            motor: input.motor,
+            mileage: input.mileage,
+            fuelType: input.fuelType,
+            year: input.year,
+            purchaseDate: input.purchaseDate
+        ).get()
+
+        secondInput = try await localStorage.create(
+            brandName: secondInput.brandName,
+            brandModel: secondInput.brandModel,
+            motor: secondInput.motor,
+            mileage: secondInput.mileage,
+            fuelType: secondInput.fuelType,
+            year: secondInput.year,
+            purchaseDate: secondInput.purchaseDate
+        ).get()
         
         let values = try await localStorage.fetch().get()
         
@@ -47,7 +64,16 @@ final class TestsCarLocalStorageRealm: XCTestCase {
     func test_add_one_expect_one() async throws {
         let value = createValue()
         
-        _ = try await localStorage.add(value).get()
+        _ = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
+
         let values = try await localStorage.fetch().get()
         
         XCTAssertEqual(values.count, 1)
@@ -56,24 +82,28 @@ final class TestsCarLocalStorageRealm: XCTestCase {
     func test_add_two_expect_two() async throws {
         let value = createValue()
         let secondValue = createSecondValue()
-        let _ = try await localStorage.add(value).get()
-        _ = try await localStorage.add(secondValue).get()
+        let _ = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
+        _ = try await localStorage.create(
+            brandName: secondValue.brandName,
+            brandModel: secondValue.brandModel,
+            motor: secondValue.motor,
+            mileage: secondValue.mileage,
+            fuelType: secondValue.fuelType,
+            year: secondValue.year,
+            purchaseDate: secondValue.purchaseDate
+        ).get()
         
         let values = try await localStorage.fetch().get()
         
         XCTAssertEqual(values.count, 2)
-    }
-    
-    func test_add_When_add_three_with_same_value_expect_One() async throws {
-        let value = createValue()
-        
-        _ = try await localStorage.add(value).get()
-        _ = try await localStorage.add(value).get()
-        _ = try await localStorage.add(value).get()
-        
-        let values = try await localStorage.fetch().get()
-        
-        XCTAssertEqual(values.count, 1)
     }
     
     func test_add_three_expect_three() async throws {
@@ -81,9 +111,33 @@ final class TestsCarLocalStorageRealm: XCTestCase {
         let secondValue = createSecondValue()
         let thirdValue = FakeData.Voiture.secondValue
         
-        _ = try await localStorage.add(value).get()
-        _ = try await localStorage.add(secondValue).get()
-        _ = try await localStorage.add(thirdValue).get()
+        _ = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
+        _ = try await localStorage.create(
+            brandName: secondValue.brandName,
+            brandModel: secondValue.brandModel,
+            motor: secondValue.motor,
+            mileage: secondValue.mileage,
+            fuelType: secondValue.fuelType,
+            year: secondValue.year,
+            purchaseDate: secondValue.purchaseDate
+        ).get()
+        _ = try await localStorage.create(
+            brandName: thirdValue.brandName,
+            brandModel: thirdValue.brandModel,
+            motor: thirdValue.motor,
+            mileage: thirdValue.mileage,
+            fuelType: thirdValue.fuelType,
+            year: thirdValue.year,
+            purchaseDate: thirdValue.purchaseDate
+        ).get()
         
         let values = try await localStorage.fetch().get()
         
@@ -93,13 +147,22 @@ final class TestsCarLocalStorageRealm: XCTestCase {
     // MARK: - Remove
     
     func test_add_one_remove_one_expect_zero() async throws {
-        let value = try await localStorage.add(createValue()).get()
+        let value = createValue()
+        let createdValue = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
         
         var values = try await localStorage.fetch().get()
         
         XCTAssertEqual(values.count, 1)
         
-        _ = try await localStorage.remove(value).get()
+        _ = try await localStorage.remove(createdValue).get()
         
         values = try await localStorage.fetch().get()
         
@@ -107,25 +170,57 @@ final class TestsCarLocalStorageRealm: XCTestCase {
     }
     
     func test_remove_when_add_two_remove_one_expect_one() async throws {
-        let value = try await localStorage.add(createValue()).get()
-        let secondValue =  try await localStorage.add(createSecondValue()).get()
-        _ = try await localStorage.remove(value).get()
+        let value = createValue()
+        let secondValue = createSecondValue()
+
+        let valueCreated = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
+
+        let secondValueCreated = try await localStorage.create(
+            brandName: secondValue.brandName,
+            brandModel: secondValue.brandModel,
+            motor: secondValue.motor,
+            mileage: secondValue.mileage,
+            fuelType: secondValue.fuelType,
+            year: secondValue.year,
+            purchaseDate: secondValue.purchaseDate
+        ).get()
+
+        _ = try await localStorage.remove(valueCreated).get()
         
         let values = try await localStorage.fetch().get()
         
-        XCTAssertEqual(values, [secondValue])
+        XCTAssertEqual(values, [secondValueCreated])
     }
     
     // MARK: - RemoveById
     
     func test_add_one_removeById_one_expect_zero() async throws {
-        let value = try await localStorage.add(createValue()).get()
+        let value = createValue()
+        let secondValue = createSecondValue()
+
+        let valueCreated = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
         
         var values = try await localStorage.fetch().get()
         
         XCTAssertEqual(values.count, 1)
         
-        _ = try await localStorage.remove(byID: value.id).get()
+        _ = try await localStorage.remove(byID: valueCreated.id).get()
         
         values = try await localStorage.fetch().get()
         
@@ -133,22 +228,61 @@ final class TestsCarLocalStorageRealm: XCTestCase {
     }
     
     func test_remove_when_add_two_removeById_one_expect_one() async throws {
-        let value = try await localStorage.add(createValue()).get()
-        let secondValue =  try await localStorage.add(createSecondValue()).get()
-        _ = try await localStorage.remove(byID: value.id).get()
+        let value = createValue()
+        let secondValue = createSecondValue()
+
+        let valueCreated = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
+
+        let secondValueCreated = try await localStorage.create(
+            brandName: secondValue.brandName,
+            brandModel: secondValue.brandModel,
+            motor: secondValue.motor,
+            mileage: secondValue.mileage,
+            fuelType: secondValue.fuelType,
+            year: secondValue.year,
+            purchaseDate: secondValue.purchaseDate
+        ).get()
+
+        _ = try await localStorage.remove(byID: valueCreated.id).get()
         
         let values = try await localStorage.fetch().get()
         
-        XCTAssertEqual(values, [secondValue])
+        XCTAssertEqual(values, [secondValueCreated])
     }
     
     // MARK: - Erase
     
     func test_erase_when_add_two_erase_expect_zero() async throws {
         let value = createValue()
-        
-        _ = try await localStorage.add(value).get()
-        _ = try await localStorage.add(value).get()
+        let secondValue = createSecondValue()
+
+        _ = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
+
+        _ = try await localStorage.create(
+            brandName: value.brandName,
+            brandModel: value.brandModel,
+            motor: value.motor,
+            mileage: value.mileage,
+            fuelType: value.fuelType,
+            year: value.year,
+            purchaseDate: value.purchaseDate
+        ).get()
         
         _ = try await localStorage.erase().get()
         
